@@ -38,3 +38,15 @@ export async function passwordResetRequest(req, res) {
 
   return res.status(StatusCodes.OK).json({ email });
 }
+
+export async function resetPassword(req, res) {
+  const { email, password } = req.body;
+  const result = await userService.updatePassword(email, password);
+
+  if (!result.affectedRows)
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: '존재하지 않는 이메일입니다.' });
+
+  return res.sendStatus(StatusCodes.OK);
+}

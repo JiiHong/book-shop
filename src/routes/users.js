@@ -9,8 +9,6 @@ router.post('/login', userController.login);
 
 router.post('/reset', userController.passwordResetRequest);
 
-// router.put('/reset', (req, res) => {
-//   res.send('비밀번호 초기화');
-// });
+router.put('/reset', userController.resetPassword);
 
 export default router;

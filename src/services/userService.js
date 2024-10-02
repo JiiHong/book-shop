@@ -28,3 +28,11 @@ export async function getByEmail(email) {
 
   return user;
 }
+
+export async function updatePassword(email, password) {
+  const sql = 'UPDATE users SET password = ? WHERE email = ?';
+
+  return db
+    .execute(sql, [password, email]) //
+    .then((result) => result[0]);
+}
