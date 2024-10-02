@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import '../index.js';
 import express from 'express';
 import usersRouter from './routes/users.js';
 import booksRouter from './routes/books.js';
@@ -6,8 +6,6 @@ import likesRouter from './routes/likes.js';
 import cartsRouter from './routes/carts.js';
 import ordersRouter from './routes/orders.js';
 import { db } from './db/database.js';
-
-dotenv.config();
 
 const app = express();
 
