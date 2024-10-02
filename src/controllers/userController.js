@@ -26,3 +26,15 @@ export async function login(req, res) {
 
   return res.sendStatus(StatusCodes.OK);
 }
+
+export async function passwordResetRequest(req, res) {
+  const { email } = req.body;
+  const user = await userService.getByEmail(email);
+
+  if (!user)
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: '존재하지 않는 이메일입니다.' });
+
+  return res.status(StatusCodes.OK).json({ email });
+}

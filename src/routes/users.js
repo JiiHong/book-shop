@@ -7,9 +7,7 @@ router.post('/join', userController.join);
 
 router.post('/login', userController.login);
 
-// router.post('/reset', (req, res) => {
-//   res.send('비밀번호 초기화 요청');
-// });
+router.post('/reset', userController.passwordResetRequest);
 
 // router.put('/reset', (req, res) => {
 //   res.send('비밀번호 초기화');

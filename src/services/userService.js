@@ -20,3 +20,11 @@ export async function login(email, password) {
 
   return token;
 }
+
+export async function getByEmail(email) {
+  const sql = 'SELECT * FROM users WHERE email = ?';
+
+  const user = (await db.execute(sql, [email]))[0][0];
+
+  return user;
+}
