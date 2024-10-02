@@ -5,6 +5,7 @@ import booksRouter from './routes/books.js';
 import likesRouter from './routes/likes.js';
 import cartsRouter from './routes/carts.js';
 import ordersRouter from './routes/orders.js';
+import { db } from './db/database.js';
 
 dotenv.config();
 
@@ -25,4 +26,5 @@ app.use((error, req, res, next) => {
   res.sendStatus(500);
 });
 
+db.getConnection();
 app.listen(process.env.PORT);
