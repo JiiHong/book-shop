@@ -1,11 +1,14 @@
+import { hash } from 'bcrypt';
 import { db } from '../db/database.js';
 import { createJwtToken } from '../utils/auth.js';
 
 export async function join(email, password) {
+  const hashed = await hash(password, Number(process.env.BCRYPT_SALT_ROUNDS));
+
   const sql = 'INSERT INTO users (email, password) VALUES (?, ?)';
 
   return db
-    .execute(sql, [email, password]) //
+    .execute(sql, [email, hashed]) //
     .then((result) => result[0].insertId);
 }
 
