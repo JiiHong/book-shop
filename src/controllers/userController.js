@@ -3,10 +3,15 @@ import * as userService from '../services/userService.js';
 
 export async function join(req, res) {
   const { email, password } = req.body;
-  // TODO: email로 유저 찾아서 중복 확인
+  const user = await userService.getByEmail(email);
+
+  if (user)
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: '이미 존재하는 이메일입니다.' });
 
   const userId = await userService.join(email, password);
-  // TODO: userId 토큰으로 변경
+
   return res.status(StatusCodes.CREATED).json({ userId });
 }
 
