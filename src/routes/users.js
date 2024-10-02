@@ -5,9 +5,7 @@ const router = express.Router();
 
 router.post('/join', userController.join);
 
-// router.post('/login', (req, res) => {
-//   res.send('로그인');
-// });
+router.post('/login', userController.login);
 
 // router.post('/reset', (req, res) => {
 //   res.send('비밀번호 초기화 요청');

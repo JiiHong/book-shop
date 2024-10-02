@@ -9,3 +9,20 @@ export async function join(req, res) {
   // TODO: userId 토큰으로 변경
   return res.status(StatusCodes.CREATED).json({ userId });
 }
+
+export async function login(req, res) {
+  const { email, password } = req.body;
+
+  const token = await userService.login(email, password);
+
+  if (!token)
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: '아이디 또는 비밀번호가 잘못되었습니다.' });
+
+  res.cookie('token', token, {
+    httpOnly: true,
+  });
+
+  return res.sendStatus(StatusCodes.OK);
+}
