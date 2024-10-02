@@ -1,4 +1,4 @@
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { db } from '../db/database.js';
 import { createJwtToken } from '../utils/auth.js';
 
@@ -17,7 +17,10 @@ export async function login(email, password) {
 
   const user = (await db.execute(sql, [email]))[0][0];
 
-  if (user.password !== password) return;
+  const isValidPassword = await compare(password, user.password);
+  console.log(isValidPassword);
+
+  if (!isValidPassword) return;
 
   const token = createJwtToken(user.email);
 
