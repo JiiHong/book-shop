@@ -18,7 +18,6 @@ export async function login(email, password) {
   const user = (await db.execute(sql, [email]))[0][0];
 
   const isValidPassword = await compare(password, user.password);
-  console.log(isValidPassword);
 
   if (!isValidPassword) return;
 
@@ -37,8 +36,9 @@ export async function getByEmail(email) {
 
 export async function updatePassword(email, password) {
   const sql = 'UPDATE users SET password = ? WHERE email = ?';
+  const hashed = await hash(password, Number(process.env.BCRYPT_SALT_ROUNDS));
 
   return db
-    .execute(sql, [password, email]) //
+    .execute(sql, [hashed, email]) //
     .then((result) => result[0]);
 }
