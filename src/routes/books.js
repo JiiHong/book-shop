@@ -1,13 +1,10 @@
 import express from 'express';
+import * as bookConteroller from '../controllers/bookConteroller.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send('전체 도서, 카테고리별 도서 목록 조회');
-});
+router.get('/', bookConteroller.getAllBooks);
 
-router.get('/:id', (req, res) => {
-  res.send('개별 도서 조회');
-});
+router.get('/:id', bookConteroller.getBookById);
 
 export default router;
