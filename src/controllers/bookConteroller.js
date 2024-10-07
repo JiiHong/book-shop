@@ -2,12 +2,12 @@ import { StatusCodes } from 'http-status-codes';
 import * as bookService from '../services/bookService.js';
 
 export async function getAllBooks(req, res) {
-  const categoryId = Number(req.query.categoryId);
-  const books = await (Number.isNaN(categoryId)
-    ? bookService.getAllBooks()
-    : bookService.getBookByCategoryId(categoryId));
+  const { category_id, news } = req.query;
+  const books = await (!isNaN(category_id) || news
+    ? bookService.getBookByCategoryOrNew(req.query)
+    : bookService.getAllBooks(req.query));
 
-  if (books.length < 1) res.sendStatus(StatusCodes.NOT_FOUND);
+  if (books.length < 1) return res.sendStatus(StatusCodes.NOT_FOUND);
 
   return res.status(StatusCodes.OK).json(books);
 }
