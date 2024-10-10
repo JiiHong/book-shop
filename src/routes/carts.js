@@ -1,17 +1,12 @@
 import express from 'express';
+import * as cartConteroller from '../controllers/cartController.js';
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send('장바구니 조회');
-});
+router.get('/', cartConteroller.getCartItems);
 
-router.post('/', (req, res) => {
-  res.send('장바구니 담기');
-});
+router.post('/', cartConteroller.addToCart);
 
-router.delete('/:id', (req, res) => {
-  res.send('장바구니 도서 삭제');
-});
+router.delete('/:id', cartConteroller.removeCartItem);
 
 export default router;
