@@ -1,9 +1,10 @@
 import { db } from '../db/database.js';
 
 const SELECT_JOIN = `
-  SELECT b.id, b.title, b.category_id, b.img, b.form, b.isbn, b.summary, b.detail, b.author, b.pages, b.contents, b.price, b.pub_date, c.category_name
+  SELECT b.id, b.title, b.img, b.summary, b.author, b.price, b.pub_date,
+  (SELECT COUNT(*) FROM likes WHERE liked_book_id = b.id) AS likes
   FROM books b
-  JOIN category c ON b.category_id = c.id`;
+  JOIN category c ON b.category_id = c.category_id`;
 
 const LIMIT = 'LIMIT ?, ?';
 
@@ -41,10 +42,17 @@ export async function getBookByCategoryOrNew(query) {
     .then((result) => result[0]);
 }
 
-export async function getBookById(id) {
-  const sql = `${SELECT_JOIN} WHERE b.id = ?`;
+export async function getBookById(userId, id) {
+  const sql = `
+  SELECT b.id, b.title, b.img, c.category_name, b.form, b.isbn, b.detail, b.summary, b.author, b.pages, b.contents,
+  b.price, b.pub_date,
+  (SELECT COUNT(*) FROM likes WHERE liked_book_id = b.id) AS likes,
+  EXISTS (SELECT * FROM likes WHERE user_id = ? AND liked_book_id = ?) AS liked
+  FROM books b
+  JOIN category c ON b.category_id = c.category_id
+  WHERE b.id = ?`;
 
   return db
-    .execute(sql, [id]) //
+    .execute(sql, [userId, id, id]) //
     .then((result) => result[0][0]);
 }

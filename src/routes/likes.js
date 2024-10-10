@@ -1,13 +1,10 @@
 import express from 'express';
+import * as likeController from '../controllers/likeController.js';
 
 const router = express.Router();
 
-router.post('/:id', (req, res) => {
-  res.send('좋아요 추가');
-});
+router.post('/:id', likeController.addLike);
 
-router.delete('/:id', (req, res) => {
-  res.send('좋아요 삭제');
-});
+router.delete('/:id', likeController.removeLike);
 
 export default router;

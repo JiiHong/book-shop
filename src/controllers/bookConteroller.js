@@ -14,7 +14,9 @@ export async function getAllBooks(req, res) {
 
 export async function getBookById(req, res) {
   const id = Number(req.params.id);
-  const book = await bookService.getBookById(id);
+  const { user_id } = req.body;
+
+  const book = await bookService.getBookById(user_id, id);
 
   if (!book) return res.sendStatus(StatusCodes.NOT_FOUND);
 
